@@ -4,8 +4,12 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
+
 from .views import TodoViewSet
-from .interview import Interview
+from .interview import (
+    BranchStatus,
+    UpdateParentsStatus,
+)
 
 
 class OptionalSlashRouter(DefaultRouter):
@@ -16,12 +20,12 @@ class OptionalSlashRouter(DefaultRouter):
 
 router = OptionalSlashRouter()
 
-router.register(r'todo', TodoViewSet, 'todo')
+router.register(r"todo", TodoViewSet, "todo")
 
 schema_view = get_schema_view(
     openapi.Info(
         title="todo",
-        default_version='v1',
+        default_version="v1",
         description="API description",
     ),
     public=True,
@@ -29,13 +33,28 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    re_path('^', include(router.urls)),
-    #re_path('^interview/(?P<pk>[^/.]+)/?$', Interview.as_view(), name='interview-func'),
-    re_path('^interview/$', Interview.as_view(), name='interview-func-post'),
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$',
-            schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger',
-            cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc',
-            cache_timeout=0), name='schema-redoc'),
+    re_path("^", include(router.urls)),
+    # re_path('^interview/(?P<pk>[^/.]+)/?$', Interview.as_view(), name='interview-func'),
+    # re_path("^interview/$", Interview.as_view(), name="interview-func-post"),
+    re_path(
+        r"^todo/(?P<pk>[^/.]+)/update-parents/$",
+        UpdateParentsStatus.as_view(),
+    ),
+    re_path(
+        r"^todo/(?P<pk>[^/.]+)/branch-status/$",
+        BranchStatus.as_view(),
+    ),
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    re_path(
+        r"^swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    re_path(
+        r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
+    ),
 ]
