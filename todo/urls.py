@@ -6,10 +6,7 @@ from rest_framework.routers import DefaultRouter
 
 
 from .views import TodoViewSet
-from .interview import (
-    BranchStatus,
-    UpdateParentsStatus,
-)
+from .controllers import BranchStatus, UpdateParentsStatus, Complete
 
 
 class OptionalSlashRouter(DefaultRouter):
@@ -37,12 +34,16 @@ urlpatterns = [
     # re_path('^interview/(?P<pk>[^/.]+)/?$', Interview.as_view(), name='interview-func'),
     # re_path("^interview/$", Interview.as_view(), name="interview-func-post"),
     re_path(
-        r"^todo/(?P<pk>[^/.]+)/update-parents/$",
+        r"^todo/(?P<pk>[^/.]+)/update-parents",
         UpdateParentsStatus.as_view(),
     ),
     re_path(
-        r"^todo/(?P<pk>[^/.]+)/branch-status/$",
+        r"^todo/(?P<pk>[^/.]+)/branch-status",
         BranchStatus.as_view(),
+    ),
+    re_path(
+        r"^todo/(?P<pk>[^/.]+)/complete",
+        Complete.as_view(),
     ),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
