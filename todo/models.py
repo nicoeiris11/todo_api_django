@@ -7,18 +7,16 @@ class Todo(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     is_complete = models.BooleanField(null=True, blank=True)
     parent = models.ForeignKey(
-        'Todo',
-        related_name='children',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
+        "Todo", related_name="children", on_delete=models.CASCADE, null=True, blank=True
     )
 
     class Meta:
         db_table = "todo"
 
     def __str__(self):
-        return "{} - (Is Complete: {}) [{}]".format(self.name, self.is_complete, self.id)
+        return "{} - (Is Complete: {}) [{}]".format(
+            self.name, self.is_complete, self.id
+        )
 
     def print_tree(self):
         stack = [(self, 1)]
