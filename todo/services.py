@@ -55,3 +55,18 @@ class TodoService:
             children_is_complete.append(self._branch_is_complete_rec(child))
 
         return todo.name, all(children_is_complete)
+
+    def complete(self, pk: int) -> None:
+        """
+        Search Todo and mark it as complete.
+        Also iterate over children list and mark is as complete (1st childs level only)
+        """
+        todo = self._get_todo(pk)
+        if not todo.is_complete:
+            todo.is_complete = True
+            todo.save()
+
+        for child in todo.children.all():
+            if not child.is_complete:
+                child.is_complete = True
+                child.save()

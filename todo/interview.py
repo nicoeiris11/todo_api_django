@@ -5,7 +5,6 @@ from django.http import Http404
 
 from .services import TodoService
 from .models import Todo
-from .serializers import TodoSerializer
 
 
 class TodoOperations(APIView):
@@ -57,6 +56,8 @@ class Complete(TodoOperations):
     """
 
     def post(self, request, pk):
-        todo = self.get_object(pk)
-        serializer = TodoSerializer(todo)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            self.todo_service.complete(pk)
+            return Response(status=status.HTTP_200_OK)
+        except Todo.DoesNotExist:
+            raise Http404()

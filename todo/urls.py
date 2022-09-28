@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 
 
 from .views import TodoViewSet
-from .controllers import BranchStatus, UpdateParentsStatus, Complete
+from .interview import BranchStatus, UpdateParentsStatus, Complete
 
 
 class OptionalSlashRouter(DefaultRouter):
