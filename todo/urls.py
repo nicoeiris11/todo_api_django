@@ -36,15 +36,14 @@ urlpatterns = [
     re_path(
         r"^todo/(?P<pk>[^/.]+)/update-parents",
         UpdateParentsStatus.as_view(),
+        name="update-parents-post",
     ),
     re_path(
         r"^todo/(?P<pk>[^/.]+)/branch-status",
         BranchStatus.as_view(),
+        name="branch-status-get",
     ),
-    re_path(
-        r"^todo/(?P<pk>[^/.]+)/complete",
-        Complete.as_view(),
-    ),
+    re_path(r"^todo/(?P<pk>[^/.]+)/complete", Complete.as_view(), name="complete-post"),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -22,7 +23,7 @@ class UpdateParentsStatus(TodoOperations):
     Update parent status to be the same as the received todo
     """
 
-    def post(self, request, pk):
+    def post(self, request, pk: int) -> HTTPResponse:
         try:
             self.todo_service.update_parents(pk)
             return Response(status=status.HTTP_200_OK)
@@ -36,7 +37,7 @@ class BranchStatus(TodoOperations):
     a branch to be complete, all the children todo should be complete
     """
 
-    def get(self, request, pk):
+    def get(self, request, pk: int) -> HTTPResponse:
         try:
             todo_name, is_complete = self.todo_service.branch_status(pk)
             return (
@@ -55,7 +56,7 @@ class Complete(TodoOperations):
     Find a todo and mark it as complete, as a result all its childs(direct descendants) should be marked as completed.
     """
 
-    def post(self, request, pk):
+    def post(self, request, pk: int) -> HTTPResponse:
         try:
             self.todo_service.complete(pk)
             return Response(status=status.HTTP_200_OK)
